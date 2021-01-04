@@ -21,3 +21,9 @@ G
 AsthmaTracker/models.py,f\9\f9f0a0478e3e52f12cdaf31ae133bd754db072b5
 F
 AsthmaTracker/admin.py,4\1\418ff3225c48251a2a80f9a7686e169a4286245e
+e
+5AsthmaTracker/templates/AsthmaTracker/admin_home.html,8\0\806b1e0a53437a82ed03fbb2da29778353826ee8
+`
+0AsthmaTracker/templates/AsthmaTracker/other.html,f\2\f2bfe581196fbd24e5bca07111cc75ea3ee79810
+e
+5AsthmaTracker/templates/AsthmaTracker/p_register.html,4\8\48045fe359a6acee5472a9fe89630af34252aca8
