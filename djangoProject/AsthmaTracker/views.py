@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import User
+from django.contrib.auth.forms import UserCreationForm
+from AsthmaTracker.admin import Doctor
 
 
 # Create your views here.
+
 
 def index(request):
     context = {}
@@ -33,25 +35,25 @@ def p_signin(request):
 
 
 
-def register(request):
-    if request.method == 'POST' :
-        uname = request.POST['uname']
-        # phone = request.POST['phone']
-        email = request.POST['email']
-        # spcl = request.POST['spcl']
-        psw1 = request.POST['psw']
-        # psw2-repeat = request.POST['psw2-repeat']
+def d_register(request):
+    error = ""
+    if not request.user.is_staff:
+        return redirect('p_register')
 
-        user = User.objects.create_user(username=uname, password=psw1, email=email)
-        user.save()
-        print('User Created')
-        return redirect('/')
-
-
-    else:
-
-        context = {}
-        return render(request, 'AsthmaTracker/register.html', context)
+    if request.method =='POST':
+        a = request.POST['name']
+        b = request.POST['phn']
+        c = request.POST['email']
+        # d = request.POST['reg_no']
+        e = request.POST['spcl']
+        f = request.POST['password1']
+        try:
+            Doctor.objects.create(name=a, mobile=b, email=c, specialization=e, password=f)
+            error = "no"
+        except:
+            error = "yes"
+    d = {'error':error}
+    return render(request, 'AsthmaTracker/d_register.html', d)
 
 
 
@@ -82,3 +84,7 @@ def home(request):
 
     context = {}
     return render(request, 'AsthmaTracker/home.html', context)
+
+def d_profile(request):
+    context = {}
+    return render(request, 'AsthmaTracker/d_profile.html', context)

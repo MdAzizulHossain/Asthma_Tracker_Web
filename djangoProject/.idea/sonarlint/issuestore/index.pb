@@ -11,8 +11,6 @@ E
 AsthmaTracker/urls.py,3\6\36b919a5d21e7e90c710ae1e21c1f8d68cbd8f48
 9
 	manage.py,3\1\3156ad13e4d695cd526bbb7b031016ecba842270
-c
-3AsthmaTracker/templates/AsthmaTracker/register.html,0\a\0adcf0c73a46fd34e5af0815f672eca264e88c72
 T
 $AsthmaTracker/static/css/mystyle.css,3\2\3240cb81423c4fb76d1012bfeef21ecc75f282b6
 _
@@ -27,3 +25,17 @@ e
 0AsthmaTracker/templates/AsthmaTracker/other.html,f\2\f2bfe581196fbd24e5bca07111cc75ea3ee79810
 e
 5AsthmaTracker/templates/AsthmaTracker/p_register.html,4\8\48045fe359a6acee5472a9fe89630af34252aca8
+I
+AsthmaTracker/__init__.py,b\1\b1add9d16f9e126104646c0278d3ec3232221b79
+F
+AsthmaTracker/forms.py,2\f\2f4eea42c38a36a6df1f479056bcdc282bc754f4
+e
+5AsthmaTracker/templates/AsthmaTracker/d_register.html,2\a\2a25ebeb386d3c82997be4da5be98a30793bbfcd
+`
+0AsthmaTracker/templates/AsthmaTracker/index.html,1\e\1e8ea7553f6203a4077a28aefc6be32e37c54fd5
+d
+4AsthmaTracker/templates/AsthmaTracker/d_profile.html,d\3\d3416b6a5b993a1013669ce9e1bd8f6feca97466
+X
+(AsthmaTracker/migrations/0001_initial.py,1\b\1b446f236de25281656bb8eae7f6ca9c24782190
+[
++AsthmaTracker/migrations/0002_doctoruser.py,a\6\a661e072dbc8e672902efd884754f64695cfb7de
