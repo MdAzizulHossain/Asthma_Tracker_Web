@@ -1,4 +1,9 @@
 {% block body %}
+{% if message %}
+<script>
+   alert('{{ message }}');
+</script>
+{% endif %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -93,7 +98,7 @@
 </head>
 <body>
 
-<form method="post">
+<form action="/p_register/postsignup/" method="post">
     {% csrf_token %}
     <div class="container">
         <h1 style="color: #fde04e;text-align: center">Asthma Tracker</h1>

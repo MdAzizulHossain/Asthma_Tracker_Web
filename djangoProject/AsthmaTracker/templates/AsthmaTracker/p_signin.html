@@ -12,6 +12,11 @@
     window.location=({% url 'signin' %});
 </SCRIPT>
 {% endifequal %}
+{% if message %}
+<script>
+   alert('{{ message }}');
+</script>
+{% endif %}
 
     <!DOCTYPE html>
     <html>
@@ -102,7 +107,8 @@
     </head>
     <body>
 
-    <form action="">
+    <form action="/p_signin/postsign/" method="post">
+         {% csrf_token %}
         <div class="container">
 
             <h1 style="color: #fde04e;text-align: center">Asthma Tracker</h1>

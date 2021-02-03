@@ -1,4 +1,6 @@
 from django.db import models
+
+
 # from django.contrib.auth.models import (
 #     AbstractBaseUser, BaseUserManager
 #                                         )
@@ -41,9 +43,8 @@ from django.db import models
 #         return self.active
 
 
-
 class Doctor(models.Model):
-    name   = models.CharField(max_length=255, blank=True, null=True)
+    name = models.CharField(max_length=255, blank=True, null=True)
     mobile = models.IntegerField()
     email = models.EmailField(max_length=255, unique=True)
     # bmdc_reg = models.CharField(max_length=10)
@@ -53,7 +54,6 @@ class Doctor(models.Model):
     def __str__(self):
         return str(self.email)
 
-
     # class Meta:
     #     verbose_name = "Doctor List"
     #     verbose_name_plural = "Doctor Database"
@@ -61,16 +61,11 @@ class Doctor(models.Model):
 
 class Patient(models.Model):
     name = models.CharField(max_length=50)
-    gender = models.CharField(max_length=10)
+    psw = models.CharField(max_length=8)
     mobile = models.IntegerField(null=True)
     email = models.CharField(null=True, max_length=50)
     age = models.IntegerField(null=True, blank=True)
     weight = models.DecimalField(null=True, max_digits=3, decimal_places=2)
 
-
-
-
     def __str__(self):
         return self.name
-
-
