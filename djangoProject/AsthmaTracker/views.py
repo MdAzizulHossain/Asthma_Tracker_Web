@@ -1,8 +1,13 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect , HttpResponse
 from pyrebase import pyrebase
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import auth
+from requests import request
+from django.contrib.auth.models import User
 from AsthmaTracker.admin import Doctor
+from django.http import HttpResponse
+
+
 
 firebaseConfig = {
     'apiKey': "AIzaSyCCiIcPA41_rZ3KO31OXHfq8BKVmD20FP4",
@@ -145,47 +150,54 @@ def p_profile(request):
 # end
 
 def d_register(request):
-    error = ""
-    if not request.user.is_staff:
-        return redirect('p_register')
 
     if request.method == 'POST':
-        a = request.POST['name']
-        b = request.POST['phn']
-        c = request.POST['email']
-        # d = request.POST['reg_no']
-        e = request.POST['spcl']
-        f = request.POST['password1']
-        try:
-            Doctor.objects.create(name=a, mobile=b, email=c, specialization=e, password=f)
-            error = "no"
-        except:
-            error = "yes"
-    d = {'error': error}
-    return render(request, 'AsthmaTracker/d_register.html', d)
+        form = Doctor(name=request.POST['name'], email=request.POST['email'], phone=request.POST['phone'],
+                      regno=request.POST['regno'], spcl=request.POST['spcl'])
+
+        form.save()
+        print('Registered Successfully')
+        context = {'form': form}
+        return render(request, 'AsthmaTracker/d_profile.html',context)
+    else:
+        return render(request, 'AsthmaTracker/d_register.html' )
 
 
 def signin(request):
-    # error=""
-    #
-    # if request.method == 'POST':
-    #     u = request._post['uname']
-    #     p = request._post['psw']
-    #     user = auth(username=u,password=p)
-    #     try:
-    #         if user.is_staff:
-    #             signin(request,user)
-    #             error="no"
-    #         else:
-    #             error="yes"
-    #     except:
-    #         error="yes"
-    # d = {'error':error}
-    # return render(request,'AsthmaTracker/signin.html',d)
-
     context = {}
-    return render(request, 'AsthmaTracker/signin.html', context)
+    if request.method == 'POST':
+        try:
+            # Check User in DB
+            email = request.POST['email']
+            password = request.POST['password1']
+            user_authenticate = auth.authenticate(email=email, password1=password)
+            if user_authenticate != None:
+                user = User.objects.get(email=email)
+            try:
+                data = Doctor.objects.get(email=user)
+                auth.login(request, user_authenticate)
+                print('Docter has been Logged')
+                return redirect('AsthmaTracker/d_profile.html',context)
 
+            except:
+                return redirect('/')
+
+            else:
+                print('Login Failed')
+                return render(request, 'AsthmaTracker/signin.html')
+        except:
+            return render(request, 'AsthmaTracker/signin.html')
+    return render(request, 'AsthmaTracker/d_profile.html',context)
+
+# Logout
+def logout(request):
+	auth.logout(request)
+	print('Logout')
+	return redirect('/')
+
+def d_update(request):
+    context = {}
+    return render(request, 'AsthmaTracker/d_update.html', context)
 
 def home(request):
     if not request.user.is_staff:
@@ -196,5 +208,14 @@ def home(request):
 
 
 def d_profile(request):
+    print(request.user)
+    userid = User.objects.get(email=request.user)
+    if request.user:
+        status = request.user
+    if request.method == "POST":
+        update = Doctor.objects.get(username=userid)
+        update.name = request.POST['name']
+        userdata = Doctor.objects.get(username=userid)
+
     context = {}
     return render(request, 'AsthmaTracker/d_profile.html', context)

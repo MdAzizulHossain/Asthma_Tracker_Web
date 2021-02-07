@@ -10,7 +10,6 @@
     <style>
         body {
             font-family: Arial, Helvetica, sans-serif;
-/*            background-color: #00374b;*/
             background-image: linear-gradient(to right, #28001d, #5b1300);
         }
 
@@ -21,10 +20,8 @@
 
         /* Add padding to containers */
         .container {
-/*            padding: 200px;*/
             padding-left: 300px;
             padding-right: 300px;
-/*            background-color: #003b51;*/
             background-image: linear-gradient(to right, #28001d, #5b1300);
         }
 
@@ -39,7 +36,16 @@
 
         }
 
-        input[type=text]:focus, input[type=password]:focus {
+        input{
+            width: 100%;
+            padding: 15px;
+            margin: 5px 0 22px 0;
+            display: inline-block;
+            border: none;
+            background: #f1f1f1;
+
+        }
+        input:focus {
             background-color: #ddd;
             outline: none;
         }
@@ -75,41 +81,43 @@
             color: dodgerblue;
         }
 
+
+
     </style>
 </head>
 <body>
-<div>
-    <form action="d_register" method="post">
+<div class="container">
+
+    <form action="d_register" method="POST">
         {% csrf_token %}
-
-
-        <div class="container">
+        <div>
 
             <h1 style="color: #ffffff;text-align: center">Asthma Tracker</h1>
 
             <p style="color: aliceblue;text-align: center">Please fill in this form to create an account.</p>
             <!--    <hr>-->
+
             <div class="form_size">
                 <label for="name"><b style="color: aliceblue">Full Name</b></label>
                 <input type="text" placeholder="Enter Full Name" name="name" id="name" required>
 
-                <label for="number"><b style="color: aliceblue">Number</b></label>
-                <input type="text" placeholder="Enter Phone Number" name="phn" id="phn" required>
-
                 <label for="email"><b style="color: aliceblue">Email</b></label>
-                <input type="text" placeholder="Enter Email" name="email" id="email" required>
+                <input type="email" placeholder="Enter Email" name="email" id="email" required>
+
+                <label for="phone"><b style="color: aliceblue">Number</b></label>
+                <input type="tel" placeholder="Enter Phone Number" name="phone" id="phone" required>
 
                 <label for="reg_no"><b style="color: aliceblue">BMDC Reg. Number</b></label>
-                <input type="text" placeholder="Enter BMDC Registration Number" name="reg_no" id="reg_no" required>
+                <input type="text" placeholder="Enter BMDC Registration Number" name="regno" id="regno" required>
 
-                <label for="special"><b style="color: aliceblue">Specialization</b></label>
+                <b style="color: aliceblue">Specialization</b>
                 <input type="text" placeholder="Enter Specialization" name="spcl" id="spcl" required>
 
-                <label for="psw"><b style="color: aliceblue">Password</b></label>
+                <label for="password" ><b style="color: aliceblue">Password</b></label>
                 <input type="password" placeholder="Enter Password" name="password1" id="password1" required>
 
-                <label for="psw-repeat"><b style="color: aliceblue">Repeat Password</b></label>
-                <input type="password" placeholder="Repeat Password" name="password2" id="password2" required>
+<!--                <label><b style="color: aliceblue">Repeat Password</b></label>-->
+<!--                <input type="password" placeholder="Repeat Password" name="password2" id="password2" required>-->
             </div>
 
             <p style="color: aliceblue">By creating an account you agree to our <a href="#" style="color: aliceblue">Terms
@@ -119,16 +127,17 @@
             </div>
 
         </div>
+    </form>
+    <p style="text-align: center; color: #ffffff">Already have an account? <a href="{% url 'signin' %}" style="color: #ffffff">Sign in</a>.</p>
 
-        <!--  <div class="container signin">-->
-        <p style="text-align: center; color: #ffffff">Already have an account? <a href="{% url 'signin' %}" style="color: #ffffff">Sign in</a>.</p>
-        <!--  </div>-->
     </form>
 </div>
 {% ifequal error "no" %}
 <script>
     alert('Logged In Successfully');
     window.location=('{% url 'd_profile' %}');
+
+
 </script>
 {% endifequal %}
 {% ifequal error "yes" %}
@@ -136,6 +145,8 @@
     alert('Logged In Successfully');
 {#    alert('Invalid Login Credentials, Try Again');#}
     window.location=('{% url 'd_profile' %}');
+
+
 </script>
 {% endifequal %}
 
