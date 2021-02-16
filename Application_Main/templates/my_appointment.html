@@ -26,7 +26,7 @@
                     <th scope="col">Time</th>
 
                     {% if user == 'P' %}
-                    <th scope="col">Docter</th>
+                    <th scope="col">Doctor</th>
                     {% else %}
                     <th scope="col">Patient</th>
                     {% endif %}
@@ -40,7 +40,7 @@
                     <th scope="row">{{ data.date }}</th>
                     <td> {{ data.time }}</td>
                     {% if user == 'P' %}
-                    <td> {{ data.docterid.name }}</td>
+                    <td> {{ data.doctorid.name }}</td>
                     {% else %}
                     <td> {{ data.patientid.name }}</td>
                     {% endif %}

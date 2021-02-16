@@ -31,10 +31,12 @@ def register(request):
             user = User.objects.get(username=request.POST['username'])
             print(user)
             return render(request, 'register.html')
+            print('Registered Successfully')
         except User.DoesNotExist:
             user = User.objects.create_user(username=request.POST['username'], password=request.POST['pass1'])
             if request.POST['post'] == 'Patient':
                 new = Patient(phone=request.POST['phone'], name=request.POST['name'], email=request.POST['email'],
+                              age=request.POST['age'], weight=request.POST['weight'],
                               username=user)
                 new.save()
 
@@ -42,6 +44,7 @@ def register(request):
                 c_patient.save()
 
                 return render(request, 'register.html')
+                print('Registered Successfully')
             else:
                 new = Doctor(phone=request.POST['phone'], name=request.POST['name'], email=request.POST['email'],
                              username=user)
@@ -124,10 +127,11 @@ def profile(request, user):
             update.email = request.POST['email']
             update.gender = request.POST['gender']
             update.age = request.POST['age']
+            update.weight=request.POST['weight']
             update.blood = request.POST['blood']
             update.address = request.POST['address']
-
             update.case = request.POST['case']
+
             try:
                 myfile = request.FILES['report']
                 fs = FileSystemStorage(location='media/report/')
@@ -246,7 +250,7 @@ def create_patient(request):
             except:
                 url = ""
             new = Patient(phone=request.POST['phone'], name=request.POST['name'], email=request.POST['email'],
-                          username=user, age=request.POST['age'], address=request.POST['address'],
+                          username=user, age=request.POST['age'], weight=request.POST['weight'], address=request.POST['address'],
                           gender=request.POST['gender'], blood=request.POST['blood'], case=request.POST['case'],
                           medical=url)
             new.save()
@@ -270,6 +274,7 @@ def update_patient(request, id):
         update.email = request.POST['email']
         update.gender = request.POST['gender']
         update.age = request.POST['age']
+        update.weight=request.POST['weight']
         update.blood = request.POST['blood']
         update.address = request.POST['address']
         update.case = request.POST['case']
