@@ -16,6 +16,21 @@ from PATIENT.models import *
 from COMMON_APP.models import *
 from Application_Main.settings import EMAIL_HOST_USER
 from django.core.mail import send_mail
+import pyrebase
+
+firebaseConfig = {
+    'apiKey': "AIzaSyCCiIcPA41_rZ3KO31OXHfq8BKVmD20FP4",
+    'authDomain': "asthma-tracker-fa7ac.firebaseapp.com",
+    'databaseURL': "https://asthma-tracker-fa7ac.firebaseio.com",
+    'projectId': "asthma-tracker-fa7ac",
+    'storageBucket': "asthma-tracker-fa7ac.appspot.com",
+    'messagingSenderId': "836327073019",
+    'appId': "1:836327073019:web:78fc987ed9417b0a9fbc5e",
+    'measurementId': "G-XBNH0EN784"
+}
+firebase = pyrebase.initialize_app(firebaseConfig)
+authe = firebase.auth()
+database = firebase.database()
 
 
 # Create your views here.
@@ -27,6 +42,12 @@ def register(request):
     if request.method == 'POST':
         print(request.POST['name'])
         print(request.POST['post'])
+        fullname = request.POST.get('name')
+        phone = request.POST.get('phone')
+        email = request.POST.get('email')
+        age = request.POST.get('age')
+        weight = request.POST.get('weight')
+        passw = request.POST.get('pass1')
         try:
             user = User.objects.get(username=request.POST['username'])
             print(user)
@@ -34,6 +55,19 @@ def register(request):
             print('Registered Successfully')
         except User.DoesNotExist:
             user = User.objects.create_user(username=request.POST['username'], password=request.POST['pass1'])
+
+            try:
+                userfirebase = authe.create_user_with_email_and_password(email, passw)
+            except:
+                message = "Unable to create account. Email already in use. Try again"
+                return render(request, 'register.html', {"message": message})
+            uid = userfirebase['localId']
+
+            data = {"fullName": fullname, "phone": phone, "email": email, "age": age, "weight": weight,
+                    "password": passw}
+
+            database.child("Patient").child(uid).set(data)
+
             if request.POST['post'] == 'Patient':
                 new = Patient(phone=request.POST['phone'], name=request.POST['name'], email=request.POST['email'],
                               age=request.POST['age'], weight=request.POST['weight'],
@@ -63,16 +97,25 @@ def login(request):
         try:
             # Check User in DB
             uname = request.POST['username']
+            email = request.POST.get('email')
             pwd = request.POST['pass1']
             user_authenticate = auth.authenticate(username=uname, password=pwd)
             if user_authenticate != None:
                 user = User.objects.get(username=uname)
                 try:
-                    data = Patient.objects.get(username=user)
-                    print(data)
-                    print('Patient has been Logged')
-                    auth.login(request, user_authenticate)
-                    return redirect('dashboard', user="P")
+                    try:
+                        data = Patient.objects.get(username=user)
+                        print(data)
+                        print('Patient has been Logged')
+                        userfirebase = authe.sign_in_with_email_and_password(email, pwd)
+                        auth.login(request, user_authenticate)
+                        print(userfirebase['idToken'])
+                        session_id = userfirebase['idToken']
+                        request.session['uid'] = str(session_id)
+                        return redirect('dashboard', user="P")
+                    except:
+                        message = "Invalid credentials!"
+                        return render(request, 'login.html', {"message": message})
                 except:
                     try:
                         data = Doctor.objects.get(username=user)
@@ -127,7 +170,7 @@ def profile(request, user):
             update.email = request.POST['email']
             update.gender = request.POST['gender']
             update.age = request.POST['age']
-            update.weight=request.POST['weight']
+            update.weight = request.POST['weight']
             update.blood = request.POST['blood']
             update.address = request.POST['address']
             update.case = request.POST['case']
@@ -250,7 +293,8 @@ def create_patient(request):
             except:
                 url = ""
             new = Patient(phone=request.POST['phone'], name=request.POST['name'], email=request.POST['email'],
-                          username=user, age=request.POST['age'], weight=request.POST['weight'], address=request.POST['address'],
+                          username=user, age=request.POST['age'], weight=request.POST['weight'],
+                          address=request.POST['address'],
                           gender=request.POST['gender'], blood=request.POST['blood'], case=request.POST['case'],
                           medical=url)
             new.save()
@@ -274,7 +318,7 @@ def update_patient(request, id):
         update.email = request.POST['email']
         update.gender = request.POST['gender']
         update.age = request.POST['age']
-        update.weight=request.POST['weight']
+        update.weight = request.POST['weight']
         update.blood = request.POST['blood']
         update.address = request.POST['address']
         update.case = request.POST['case']
@@ -350,7 +394,7 @@ def create_prescription(request):
         user_id = User.objects.get(username=request.user)
         doctor = Doctor.objects.get(username=user_id)
         new_prescrition = Prescription(symptoms=request.POST['symptoms'], prescription=request.POST['prescription'],
-                                        patient=appointment.patientid, doctor=doctor, appointment=appointment)
+                                       patient=appointment.patientid, doctor=doctor, appointment=appointment)
         new_prescrition.save()
         return redirect('doctor_prescription')
     user_id = User.objects.get(username=request.user)
