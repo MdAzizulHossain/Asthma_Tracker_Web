@@ -16,6 +16,8 @@ from PATIENT.models import *
 from COMMON_APP.models import *
 from Application_Main.settings import EMAIL_HOST_USER
 from django.core.mail import send_mail
+
+# firebase work start
 import pyrebase
 
 firebaseConfig = {
@@ -31,7 +33,7 @@ firebaseConfig = {
 firebase = pyrebase.initialize_app(firebaseConfig)
 authe = firebase.auth()
 database = firebase.database()
-
+# firebase work end
 
 # Create your views here.
 def home(request):
@@ -42,12 +44,14 @@ def register(request):
     if request.method == 'POST':
         print(request.POST['name'])
         print(request.POST['post'])
+        # firebase work start
         fullname = request.POST.get('name')
         phone = request.POST.get('phone')
         email = request.POST.get('email')
         age = request.POST.get('age')
         weight = request.POST.get('weight')
         passw = request.POST.get('pass1')
+        # firebase work end
         try:
             user = User.objects.get(username=request.POST['username'])
             print(user)
@@ -56,6 +60,7 @@ def register(request):
         except User.DoesNotExist:
             user = User.objects.create_user(username=request.POST['username'], password=request.POST['pass1'])
 
+            # firebase work start
             try:
                 userfirebase = authe.create_user_with_email_and_password(email, passw)
             except:
@@ -67,6 +72,7 @@ def register(request):
                     "password": passw}
 
             database.child("Patient").child(uid).set(data)
+            # firebase work end
 
             if request.POST['post'] == 'Patient':
                 new = Patient(phone=request.POST['phone'], name=request.POST['name'], email=request.POST['email'],
@@ -97,25 +103,25 @@ def login(request):
         try:
             # Check User in DB
             uname = request.POST['username']
+            # firebase work start
             email = request.POST.get('email')
+            # firebase work end
             pwd = request.POST['pass1']
             user_authenticate = auth.authenticate(username=uname, password=pwd)
             if user_authenticate != None:
                 user = User.objects.get(username=uname)
                 try:
-                    try:
                         data = Patient.objects.get(username=user)
                         print(data)
                         print('Patient has been Logged')
+                        # firebase work start
                         userfirebase = authe.sign_in_with_email_and_password(email, pwd)
                         auth.login(request, user_authenticate)
                         print(userfirebase['idToken'])
                         session_id = userfirebase['idToken']
                         request.session['uid'] = str(session_id)
+                        # firebase work end
                         return redirect('dashboard', user="P")
-                    except:
-                        message = "Invalid credentials!"
-                        return render(request, 'login.html', {"message": message})
                 except:
                     try:
                         data = Doctor.objects.get(username=user)
