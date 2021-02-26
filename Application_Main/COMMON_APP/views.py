@@ -7,6 +7,8 @@ from django import template
 from django.template.loader import get_template
 from io import BytesIO
 import xhtml2pdf.pisa as pisa
+
+from .models import Receptionist, HR, Appointment
 from .utils import render_to_pdf  # created in step 4
 from django.db import IntegrityError
 from django.conf import settings
@@ -19,6 +21,8 @@ from django.core.mail import send_mail
 
 # firebase work start
 import pyrebase
+
+
 
 firebaseConfig = {
     'apiKey': "AIzaSyCCiIcPA41_rZ3KO31OXHfq8BKVmD20FP4",
@@ -373,6 +377,39 @@ def doctor_appointment(request):
     return render(request, 'my_appointment.html', {'data': data, 'user': "D", 'status': status})
 
 
+# Doctor View Report
+
+def view_report(request):
+    # idToken = request.session['uid']
+    # a = authe.get_account_info(idToken)
+    # a = a['users']
+    # a = a[0]
+    # a = a['localId']
+    # print("info" + str(a))
+
+    # profile_info = database.child('Patient').child(a).get().val()
+
+    # info_list = []
+    # for i in profile_info:
+    #     info_list.append(i)
+    #
+    # print(info_list)
+    #
+    # info = []
+    # for i in info_list:
+    #     infos = database.child('Patient').child(a).child(i).get().val()
+    #     info.append(infos)
+    # print(info)
+    # real_info = zip(info_list, info)
+
+
+    return render(request, 'view_report.html')
+
+
+
+
+
+
 # Doctor Prescription
 
 def doctor_prescription(request):
@@ -386,7 +423,7 @@ def doctor_prescription(request):
     print(len(pers))
     for i in pers:
         print(i.patient)
-    return render(request, 'doctor_prescription.html', {'pers': pers, 'user': "D", 'status': status})
+    return render(request, 'doctor_prescription.html')
 
 
 # Create Prescription 
