@@ -22,8 +22,6 @@ from django.core.mail import send_mail
 # firebase work start
 import pyrebase
 
-
-
 firebaseConfig = {
     'apiKey': "AIzaSyCCiIcPA41_rZ3KO31OXHfq8BKVmD20FP4",
     'authDomain': "asthma-tracker-fa7ac.firebaseapp.com",
@@ -37,6 +35,8 @@ firebaseConfig = {
 firebase = pyrebase.initialize_app(firebaseConfig)
 authe = firebase.auth()
 database = firebase.database()
+
+
 # firebase work end
 
 # Create your views here.
@@ -115,17 +115,17 @@ def login(request):
             if user_authenticate != None:
                 user = User.objects.get(username=uname)
                 try:
-                        data = Patient.objects.get(username=user)
-                        print(data)
-                        print('Patient has been Logged')
-                        # firebase work start
-                        userfirebase = authe.sign_in_with_email_and_password(email, pwd)
-                        auth.login(request, user_authenticate)
-                        print(userfirebase['idToken'])
-                        session_id = userfirebase['idToken']
-                        request.session['uid'] = str(session_id)
-                        # firebase work end
-                        return redirect('dashboard', user="P")
+                    data = Patient.objects.get(username=user)
+                    print(data)
+                    print('Patient has been Logged')
+                    # firebase work start
+                    userfirebase = authe.sign_in_with_email_and_password(email, pwd)
+                    auth.login(request, user_authenticate)
+                    print(userfirebase['idToken'])
+                    session_id = userfirebase['idToken']
+                    request.session['uid'] = str(session_id)
+                    # firebase work end
+                    return redirect('dashboard', user="P")
                 except:
                     try:
                         data = Doctor.objects.get(username=user)
@@ -380,34 +380,30 @@ def doctor_appointment(request):
 # Doctor View Report
 
 def view_report(request):
-    # idToken = request.session['uid']
-    # a = authe.get_account_info(idToken)
-    # a = a['users']
-    # a = a[0]
-    # a = a['localId']
-    # print("info" + str(a))
+    idToken = request.session['uid']
+    a = authe.get_account_info(idToken)
+    a = a['users']
+    a = a[0]
+    a = a['localId']
+    print("info" + str(a))
 
-    # profile_info = database.child('Patient').child(a).get().val()
+    profile_info = database.child('Patient').child(a).child('healthInfo').shallow().get().val()
+    print(profile_info)
 
-    # info_list = []
-    # for i in profile_info:
-    #     info_list.append(i)
-    #
-    # print(info_list)
-    #
-    # info = []
-    # for i in info_list:
-    #     infos = database.child('Patient').child(a).child(i).get().val()
-    #     info.append(infos)
-    # print(info)
-    # real_info = zip(info_list, info)
+    info_list = []
+    for i in profile_info:
+        info_list.append(i)
 
+    print(info_list)
 
-    return render(request, 'view_report.html')
+    info = []
+    for i in info_list:
+        infos = database.child('Patient').child(a).child('healthInfo').child(i).get().val()
+        info.append(infos)
+    print(info)
+    real_info = zip(info_list, info)
 
-
-
-
+    return render(request, 'view_report.html',{'real_info':real_info})
 
 
 # Doctor Prescription

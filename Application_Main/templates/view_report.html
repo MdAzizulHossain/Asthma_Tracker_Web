@@ -20,7 +20,11 @@
 </head>
 <body>
 {% include "nav.html" %}
+{% for list,info in real_info %}
 
+{{list}} : {{info}}
+
+{% endfor %}
     <div>
 
 
