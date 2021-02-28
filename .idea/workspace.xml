@@ -4,7 +4,7 @@
     <list default="true" id="f7589d3c-d6f6-4a39-bcd5-be7f4a0ca34f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Application_Main/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/Application_Main/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application_Main/templates/nav.html" beforeDir="false" afterPath="$PROJECT_DIR$/Application_Main/templates/nav.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application_Main/templates/view_report.html" beforeDir="false" afterPath="$PROJECT_DIR$/Application_Main/templates/view_report.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

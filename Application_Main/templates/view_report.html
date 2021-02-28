@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <title>Appointment </title>
@@ -15,21 +15,34 @@
 		.container{
       margin-top: 30px;
     }
+    .rprt{
+        padding-left: 30px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        background-color: #a3a3a3;
+        font-size: 20px;
+        font-weight: bold;
+        
+    }
+
+
+
 
     </style>
 </head>
 <body>
 {% include "nav.html" %}
-{% for list,info in real_info %}
 
-{{list}} : {{info}}
+<div class="rprt">
 
-{% endfor %}
-    <div>
+    {% for list,info in real_info %}
 
 
-    </div>
+    {{list}} : {{info}}
+    <br>
 
+    {% endfor %}
+</div>
 
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -38,7 +51,7 @@
 </body>
 </html>
 
-    </style>
+</style>
 </head>
 <body>
 
