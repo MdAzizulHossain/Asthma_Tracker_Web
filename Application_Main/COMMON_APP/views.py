@@ -380,6 +380,9 @@ def doctor_appointment(request):
 # Doctor View Report
 
 def view_report(request):
+    status = False
+    if request.user:
+        status = request.user
     idToken = request.session['uid']
     a = authe.get_account_info(idToken)
     a = a['users']
@@ -403,7 +406,7 @@ def view_report(request):
     print(info)
     real_info = zip(info_list, info)
 
-    return render(request, 'view_report.html',{'real_info':real_info})
+    return render(request, 'view_report.html',{'real_info':real_info, 'user': "P", 'status': status})
 
 
 # Doctor Prescription
@@ -419,7 +422,7 @@ def doctor_prescription(request):
     print(len(pers))
     for i in pers:
         print(i.patient)
-    return render(request, 'doctor_prescription.html')
+    return render(request, 'doctor_prescription.html', { 'user': "D", 'status': status})
 
 
 # Create Prescription 
