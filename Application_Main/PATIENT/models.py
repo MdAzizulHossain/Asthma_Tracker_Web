@@ -23,3 +23,9 @@ class Invoice(models.Model):
     patient = models.OneToOneField(Patient, on_delete=models.CASCADE)
     outstanding = models.CharField(max_length=10)
     paid = models.CharField(max_length=10)
+
+class report(models.Model):
+    spo2 = models.DecimalField(max_digits=5, decimal_places=2)
+    heart_rate = models.DecimalField(max_digits=5, decimal_places=2)
+    temperature = models.DecimalField(max_digits=5, decimal_places=2)
+
