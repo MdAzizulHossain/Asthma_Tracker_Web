@@ -577,3 +577,7 @@ def send_reminder(request, id):
     recepient = [email]
     send_mail(subject, message, EMAIL_HOST_USER, recepient, fail_silently=False)
     return redirect('hr_accounting')
+
+
+def report(request):
+    return render(request)

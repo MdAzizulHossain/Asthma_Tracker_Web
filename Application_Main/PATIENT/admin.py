@@ -5,3 +5,4 @@ from PATIENT.models import *
 
 admin.site.register(Patient)
 admin.site.register(Invoice)
+admin.site.register(report)
