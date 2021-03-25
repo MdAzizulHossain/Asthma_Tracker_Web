@@ -164,7 +164,6 @@ def logout(request):
     return redirect('/login')
 
 
-
 # Profile
 def profile(request, user):
     print(request.user)
@@ -380,7 +379,8 @@ def doctor_appointment(request):
 
 # Doctor View Report
 
-def view_report(request):
+def view_report(request, user):
+    userid = User.objects.get(username=request.user)
     status = False
     if request.user:
         status = request.user
@@ -419,7 +419,28 @@ def view_report(request):
     real_info2 = zip(info_list, info2)
     real_info3 = zip(info_list, info3)
 
-    return render(request, 'view_report.html', {'real_info': real_info, 'real_info2': real_info2, 'real_info3': real_info3, 'user': "P", 'status': status})
+    if request.method == "POST":
+        if user == "P":
+            update = Patient.objects.get(username=userid)
+            update.spo2 = request.POST['spo2']
+            update.heart_rate = request.POST['heartRate']
+            update.temperature = request.POST['temperature']
+
+            try:
+                myfile = request.FILES['report']
+                fs = FileSystemStorage(location='media/report/')
+                filename = fs.save(myfile.name, myfile)
+                # print(name,file)
+                url = fs.url(filename)
+                print(url)
+                update.medical = url
+            except:
+                pass
+            update.save()
+
+    return render(request, 'view_report.html',
+                  {'real_info': real_info, 'real_info2': real_info2, 'real_info3': real_info3, 'user': "P",
+                   'status': status})
 
 
 # Doctor Prescription
@@ -435,7 +456,7 @@ def doctor_prescription(request):
     print(len(pers))
     for i in pers:
         print(i.patient)
-    return render(request, 'doctor_prescription.html', { 'user': "D", 'status': status})
+    return render(request, 'doctor_prescription.html', {'user': "D", 'status': status})
 
 
 # Create Prescription 
