@@ -17,6 +17,9 @@ class Patient(models.Model):
     medical = models.CharField(max_length=100)
     case = models.CharField(max_length=20)
     username = models.OneToOneField(User, on_delete=models.CASCADE)
+    spo2 = models.DecimalField(max_digits=5, decimal_places=2)
+    heart_rate = models.DecimalField(max_digits=5, decimal_places=2)
+    temperature = models.DecimalField(max_digits=5, decimal_places=2)
 
 
 class Invoice(models.Model):

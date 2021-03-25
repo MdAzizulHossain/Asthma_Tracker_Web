@@ -22,8 +22,9 @@
         background-color: #a3a3a3;
         font-size: 20px;
         font-weight: bold;
-        
+
     }
+
 
 
 
@@ -34,14 +35,30 @@
 {% include "nav.html" %}
 
 <div class="rprt">
+    <div class="container">
+        <div class="row">
+            <form action="/register" method="POST">
+                    {% csrf_token %}
 
-    {% for list,info in real_info %}
-
-
-    {{list}} : {{info}}
-    <br>
-
-    {% endfor %}
+                {% for list,info in real_info %}
+                Spo2 : <input name="name" placeholder="Full Name" required="" class="form-control"
+                              value="{{info}}"><br>
+                <br>
+                {% endfor %}
+                {% for list,info2 in real_info2 %}
+                Heart Rate : <input type="text" name="name" placeholder="Full Name" required="" class="form-control"
+                                    value="{{info2}}"><br>
+                <br>
+                {% endfor %}
+                {% for list,info3 in real_info3 %}
+                Temperature : <input type="text" name="name" placeholder="Full Name" required="" class="form-control"
+                                     value="{{info3}}"><br>
+                <br>
+                {% endfor %}
+                    <button type="submit" class="btn btn-primary">Send to Doctor</button>
+            </form>
+        </div>
+    </div>
 </div>
 
 
@@ -54,5 +71,3 @@
 </style>
 </head>
 <body>
-
-

@@ -164,6 +164,7 @@ def logout(request):
     return redirect('/login')
 
 
+
 # Profile
 def profile(request, user):
     print(request.user)
@@ -400,13 +401,25 @@ def view_report(request):
     print(info_list)
 
     info = []
-    for i in info_list:
-        infos = database.child('Patient').child(a).child('healthInfo').child(i).get().val()
-        info.append(infos)
-    print(info)
-    real_info = zip(info_list, info)
+    infos = database.child('Patient').child(a).child('healthInfo').child('spO2').get().val()
+    info.append(infos)
 
-    return render(request, 'view_report.html',{'real_info':real_info, 'user': "P", 'status': status})
+    info2 = []
+    infos2 = database.child('Patient').child(a).child('healthInfo').child('heartRate').get().val()
+    info2.append(infos2)
+
+    info3 = []
+    infos3 = database.child('Patient').child(a).child('healthInfo').child('temperature').get().val()
+    info3.append(infos3)
+
+    print(info2)
+    print(info)
+    print(info3)
+    real_info = zip(info_list, info)
+    real_info2 = zip(info_list, info2)
+    real_info3 = zip(info_list, info3)
+
+    return render(request, 'view_report.html', {'real_info': real_info, 'real_info2': real_info2, 'real_info3': real_info3, 'user': "P", 'status': status})
 
 
 # Doctor Prescription
@@ -580,4 +593,4 @@ def send_reminder(request, id):
 
 
 def report(request):
-    return render(request)
+    return render(request, 'view_report.html')

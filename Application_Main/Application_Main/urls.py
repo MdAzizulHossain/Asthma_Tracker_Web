@@ -39,6 +39,7 @@ urlpatterns = [
     path('myappointment/', myappointment, name='myappointment'),
     path('doctor_appointment/', doctor_appointment, name='doctor_appointment'),
     path('view_report/', view_report, name='view_report'),
+    path('view_report01/(?P<user>.*)/$', view_report01, name='view_report01'),
     path('doctor_prescription/', doctor_prescription, name='doctor_prescription'),
     path('create_prescription/', create_prescription, name='create_prescription'),
     path('medical_history/', medical_history, name='medical_history'),
