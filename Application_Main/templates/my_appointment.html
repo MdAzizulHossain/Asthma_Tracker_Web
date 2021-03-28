@@ -41,7 +41,7 @@
                     {% if user == 'P' %}
                     <td> {{ data.doctorid.name }}</td>
                     {% else %}
-                    <td> {{ data.patientid.name }}   <a href="{% url 'view_report' %}" class="btn btn-primary" id="#hello"> View Report</a></td>
+                    <td> {{ data.patientid.name }}   <a href="{% url 'view_report' user=user %}" class="btn btn-primary" id="#hello"> View Report</a></td>
 
                     {% endif %}
 

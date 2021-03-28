@@ -10,7 +10,9 @@
 		.panel-body{
 			padding: 10px 12px;
 		}
-
+        .h4{
+        color: crimson;
+        }
 
     </style>
 </head>
@@ -19,13 +21,16 @@
 <div class="container">
 
     <br><br>
+    <div>
 
-    {% for i in data %}
-    <div class="panel panel-default bg-success">
-        <div class="panel-body"><h3>{{ i.prescripted_date }}</h3>
-            <p>Symptoms : {{ i.symptoms}}</p>
-            <p>Prescription : {{ i.prescription }}</p>
+        {% for i in data %}
+        <div class="panel panel-default bg-success">
+           <h4><a href="{% url 'get_pdf' id=i.id %}" style="color: crimson">Get PDF</a></h4>
+            <div class="panel-body"><h3>{{ i.prescripted_date }}</h3>
+                <p>Symptoms : {{ i.symptoms}}</p>
+                <p>Prescription : {{ i.prescription }}</p>
 
+            </div>
         </div>
     </div>
     <br>
