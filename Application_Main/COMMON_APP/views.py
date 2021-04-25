@@ -378,6 +378,12 @@ def doctor_appointment(request):
 
 
 # Doctor View Report
+def d_view_report(request):
+    status = False
+    if request.user:
+        status = request.user
+    return render(request, 'd_view_report.html')
+
 
 def view_report(request, user):
     userid = User.objects.get(username=request.user)
@@ -615,3 +621,5 @@ def send_reminder(request, id):
 
 def report(request):
     return render(request, 'view_report.html')
+
+

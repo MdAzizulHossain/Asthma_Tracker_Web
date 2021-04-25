@@ -20,6 +20,11 @@ class Patient(models.Model):
     spo2 = models.DecimalField(max_digits=5, decimal_places=2)
     heart_rate = models.DecimalField(max_digits=5, decimal_places=2)
     temperature = models.DecimalField(max_digits=5, decimal_places=2)
+    blood_pressure = models.IntegerField(max_length=7)
+    force_vital_capacity = models.DecimalField(max_digits=6, decimal_places=2)
+    peak_expiratory_flow = models.IntegerField(max_length=9)
+    fev1 = models.IntegerField(max_length=3)
+
 
 
 class Invoice(models.Model):
