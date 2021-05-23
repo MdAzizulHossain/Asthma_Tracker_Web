@@ -26,7 +26,7 @@ urlpatterns = [
     path('register', register, name='register'),
     path('login', login, name='login'),
     path('about', about, name='about'),
-    path('contact', contact, name='contact'),
+    path('contact/', contact, name='contact'),
 
     path('logout', logout, name='logout'),
     path('profile/(?P<user>.*)/$', profile, name='profile'),

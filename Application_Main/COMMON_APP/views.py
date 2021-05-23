@@ -49,6 +49,7 @@ def register(request):
         print(request.POST['name'])
         print(request.POST['post'])
         # firebase work start
+        bmdc_no = request.POST.get('bmdc_no')
         fullname = request.POST.get('name')
         phone = request.POST.get('phone')
         email = request.POST.get('email')
@@ -90,7 +91,7 @@ def register(request):
                 return render(request, 'register.html')
                 print('Registered Successfully')
             else:
-                new = Doctor(phone=request.POST['phone'], name=request.POST['name'], email=request.POST['email'],
+                new = Doctor(bmdc_no=request.POST['bmdc_no'], phone=request.POST['phone'], name=request.POST['name'], email=request.POST['email'],
                              username=user)
                 new.save()
                 return render(request, 'register.html')
@@ -418,19 +419,49 @@ def view_report(request, user):
     infos3 = database.child('Patient').child(a).child('healthInfo').child('temperature').get().val()
     info3.append(infos3)
 
-    print(info2)
+    info4 = []
+    infos4 = database.child('Patient').child(a).child('healthInfo').child('ecg').get().val()
+    info4.append(infos4)
+
+    info5 = []
+    infos5 = database.child('Patient').child(a).child('healthInfo').child('humidity').get().val()
+    info5.append(infos5)
+
+    info6 = []
+    infos6 = database.child('Patient').child(a).child('healthInfo').child('roomTemp').get().val()
+    info6.append(infos6)
+
+    info7 = []
+    infos7 = database.child('Patient').child(a).child('healthInfo').child('airQuality').get().val()
+    info7.append(infos7)
+
     print(info)
+    print(info2)
     print(info3)
+    print(info4)
+    print(info5)
+    print(info6)
+    print(info7)
+
+
     real_info = zip(info_list, info)
     real_info2 = zip(info_list, info2)
     real_info3 = zip(info_list, info3)
+    real_info4 = zip(info_list, info4)
+    real_info5 = zip(info_list, info5)
+    real_info6 = zip(info_list, info6)
+    real_info7 = zip(info_list, info7)
 
     if request.method == "POST":
         if user == "P":
             update = Patient.objects.get(username=userid)
             update.spo2 = request.POST['spo2']
-            update.heart_rate = request.POST['heartRate']
+            update.heartRate = request.POST['heartRate']
             update.temperature = request.POST['temperature']
+            update.ecg = request.POST['ecg']
+            update.humidity = request.POST['humidity']
+            update.roomTemp = request.POST['roomTemp']
+            update.airQuality = request.POST['airQuality']
 
             try:
                 myfile = request.FILES['report']
@@ -445,7 +476,8 @@ def view_report(request, user):
             update.save()
 
     return render(request, 'view_report.html',
-                  {'real_info': real_info, 'real_info2': real_info2, 'real_info3': real_info3, 'user': "P",
+                  {'real_info': real_info, 'real_info2': real_info2, 'real_info3': real_info3, 'real_info4': real_info4,
+                   'real_info5': real_info5, 'real_info6': real_info6, 'real_info7': real_info7, 'user': "P",
                    'status': status})
 
 
@@ -592,6 +624,12 @@ def about(request):
     if request.user:
         status = request.user
     return render(request, 'about.html')
+
+def contact(request):
+    status = False
+    if request.user:
+        status = request.user
+    return render(request, 'contact.html', {"data": data, 'user': "D", 'status': status})
 
 
 #  Invoice Generator

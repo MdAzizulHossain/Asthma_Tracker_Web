@@ -11,6 +11,7 @@ class Doctor(models.Model):
     name = models.CharField(max_length=40)
     phone = models.CharField(max_length=12, default="", unique=True)
     email = models.CharField(max_length=50, unique=True)
+    bmdc_no = models.CharField(max_length=12, default="", unique=True)
     gender = models.CharField(max_length=30)
     address = models.CharField(max_length=200)
     age = models.IntegerField(default=0)

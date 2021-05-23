@@ -18,12 +18,12 @@ class Patient(models.Model):
     case = models.CharField(max_length=20)
     username = models.OneToOneField(User, on_delete=models.CASCADE)
     spo2 = models.DecimalField(max_digits=5, decimal_places=2)
-    heart_rate = models.DecimalField(max_digits=5, decimal_places=2)
+    heartRate = models.CharField(max_length=10)
     temperature = models.DecimalField(max_digits=5, decimal_places=2)
-    blood_pressure = models.IntegerField(max_length=7)
-    force_vital_capacity = models.DecimalField(max_digits=6, decimal_places=2)
-    peak_expiratory_flow = models.IntegerField(max_length=9)
-    fev1 = models.IntegerField(max_length=3)
+    ecg = models.IntegerField(max_length=4)
+    humidity = models.DecimalField(max_digits=4, decimal_places=2)
+    roomTemp = models.DecimalField(max_digits=4, decimal_places=2)
+    airQuality = models.CharField(max_length=10)
 
 
 

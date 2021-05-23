@@ -24,6 +24,24 @@
         font-weight: bold;
 
     }
+.column {
+  float: left;
+  width: 33.33%;
+  padding : 60px;
+
+}
+
+<!--/* Clear floats after the columns */-->
+<!--.row:after {-->
+<!--  content: "";-->
+<!--  display: table;-->
+<!--  clear: both;-->
+<!--}-->
+
+
+
+
+
 
 
 
@@ -38,24 +56,63 @@
     <div class="container">
         <div class="row">
             <form action="{% url 'view_report' user=user %}" method="POST" enctype="multipart/form-data">
-                    {% csrf_token %}
+                {% csrf_token %}
+                <p>Name: Proma Ali</p>
+                <p> Age :28yrs</p>
+                <p> Weight: 47.5Kg</p>
+                <p>Gender: Female</p>
+                <p>Blood Group: O+</p>
+                <div class="column">
 
-                {% for list,info in real_info %}
-                Spo2 : <input type="text" name="spo2"  required="" class="form-control"
-                              value="{{info}}"><br>
-                <br>
-                {% endfor %}
-                {% for list,info2 in real_info2 %}
-                Heart Rate : <input type="text" name="heartRate"  required="" class="form-control"
-                                    value="{{info2}}"><br>
-                <br>
-                {% endfor %}
-                {% for list,info3 in real_info3 %}
-                Temperature : <input type="text" name="temperature"  required="" class="form-control"
-                                     value="{{info3}}"><br>
-                <br>
-                {% endfor %}
-                    <button type="submit" class="btn btn-primary">Send to Doctor</button>
+
+                    {% for list,info in real_info %}
+
+                    Spo2 : <input type="text" name="spo2" required="" class="form-control"
+                                  value="{{info}}"><br>
+
+                    {% endfor %}
+                    {% for list,info2 in real_info2 %}
+                    Heart Rate : <input type="text" name="heartRate" required="" class="form-control"
+                                        value="{{info2}}"><br>
+
+                    {% endfor %}
+                    {% for list,info3 in real_info3 %}
+                    Temperature : <input type="text" name="temperature" required="" class="form-control"
+                                         value="{{info3}}"><br>
+
+                    {% endfor %}
+
+                </div>
+                <div class="column">
+
+                    {% for list,info4 in real_info4 %}
+                    ECG : <input type="text" name="ecg" required="" class="form-control"
+                                            value="{{info4}}"><br>
+
+                    {% endfor %}
+
+                    {% for list,info5 in real_info5 %}
+                    Humidity : <input type="text" name="humidity" required="" class="form-control"
+                                                  value="{{info5}}"><br>
+
+                    {% endfor %}
+
+
+                </div>
+                <div class="column">
+                    {% for list,info6 in real_info6 %}
+                    Room Temperature : <input type="text" name="roomTemp" required="" class="form-control"
+                                                 value="{{info6}}"><br>
+
+                    {% endfor %}
+                    {% for list,info7 in real_info7 %}
+                    Air Quality : <input type="text" name="airQuality" required="" class="form-control"
+                                  value="{{info7}}"><br>
+                    <br>
+                    {% endfor %}
+
+                </div>
+                <!--                <button type="submit" class="btn btn-primary">Send to Doctor</button>-->
             </form>
         </div>
     </div>
